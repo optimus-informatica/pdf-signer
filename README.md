@@ -78,10 +78,10 @@ class MainClass {
 
 #### Recomendções
 * É fortemente recomendo você usar Thread para assinar os documentos, pois a inicialização do Store costuma levar um tempo indeterminado, e pode acarretar em "programa não respondendo", e pode acabar causando mal estar no usuário final.
-* No caso de programas win32 é aconselhável ao assinar o documento com A3, usar o tipo SunMSCAPI, pois PKCS#11 costuma ter um trabalho extra de configuração de biblioteca .dll e pode gerar alguns problemas, em casa do Linux não tem problema, basta usar open-sc ou outra biblioteca PKCS#11 que funciona normal.
+* No caso de programas win32 é aconselhável ao assinar o documento com A3, usar o tipo SunMSCAPI, pois PKCS#11 costuma ter um trabalho extra de configuração de biblioteca .dll e pode gerar alguns problemas, em caso de Linux, não tem problema, basta usar open-sc ou outra biblioteca PKCS#11 que funciona normal.
 
 #### Problemas comuns com certificados A3 (Em windows é claro)
-1 Um problema muito comum é ter SafeNet e SafeSign instalados na mesma maquina, pois por algum motivo obscuro esses dois softwares instalam a mesma biblioteca, mas com binários diferentes, então se o token/smart card precisar da biblioteca do SafeSign e você tiver instalado o SafeNet por ultimo, simplesmente não vai carregar o Store, então em Windows prefira sempre por SunMSCAPI, você ira usar o prompt do token para digitar o Pin, mas vale a pena. Você pode ir em configurações do token e definir que o pin não seja pedido em caso de uma autenticação bem sucedida. 
+1. Um problema muito comum é ter SafeNet e SafeSign instalados na mesma maquina, pois por algum motivo obscuro esses dois softwares instalam a mesma biblioteca, mas com binários diferentes, então se o token/smart card precisar da biblioteca do SafeSign e você tiver instalado o SafeNet por ultimo, simplesmente não vai carregar o Store, então em Windows prefira sempre por SunMSCAPI, você ira usar o prompt do token para digitar o Pin, mas vale a pena. Você pode ir em configurações do token e definir que o pin não seja pedido em caso de uma autenticação bem sucedida. 
 
 
 #### Licence
