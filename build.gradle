@@ -1,0 +1,33 @@
+plugins {
+    id 'groovy'
+    id 'application'
+}
+
+group 'br.osasco.optimus'
+version '1.0.1-SNAPSHOT'
+application {
+    //applicationDefaultJvmArgs = ['-Djava.security.debug=sunpkcs11']
+    mainClassName = 'br.osasco.optimus.pdfsigner.MainApp'
+}
+
+jar {
+    manifest {
+        attributes (
+                'Implementation-Title': 'Optimus - PDFSigner',
+                'Implementation-Version': version,
+                'Main-Class': 'br.osasco.optimus.pdfsigner.MainApp'
+        )
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.codehaus.groovy:groovy-all:2.3.11'
+    compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.11'
+    compile group: 'com.itextpdf', name: 'itext7-core', version: '7.1.12'
+    testCompile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.30'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}

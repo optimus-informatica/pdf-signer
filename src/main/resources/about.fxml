@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<AnchorPane prefHeight="280.0" prefWidth="600.0"
+            style="-fx-background-image: url('/signature-bg.png'); -fx-background-position: center; -fx-background-repeat: no-repeat"
+            styleClass="about" stylesheets="@app.css" xmlns="http://javafx.com/javafx/11.0.1"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.osasco.optimus.pdfsigner.AboutController">
+    <children>
+        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="14.0" styleClass="header"
+               text="OPTIMUS - PDF SIGNER" textAlignment="CENTER" AnchorPane.leftAnchor="14.0"
+               AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0"/>
+        <Label fx:id="labelVersion" alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="51.0"
+               text="Versão: 1.0.1-SNAPSHOT" textAlignment="CENTER" AnchorPane.leftAnchor="14.0"
+               AnchorPane.topAnchor="44.0"/>
+        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="69.0" text="Release Date: Ago 2020"
+               textAlignment="CENTER" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="69.0"/>
+        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="95.0" text="Licence: GPL-3.0"
+               textAlignment="CENTER" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="95.0"/>
+        <Hyperlink onAction="#openLink" layoutX="136.0" layoutY="91.0" text="https://www.gnu.org/licenses/"
+                   AnchorPane.topAnchor="91.0"/>
+        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="14.0" layoutY="121.0" text="Source:"
+               textAlignment="CENTER" AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="121.0"/>
+        <Hyperlink onAction="#openLink" layoutX="74.0" layoutY="118.0"
+                   text="https://github.com/optimus-informatica/pdf-signer" AnchorPane.topAnchor="118.0"/>
+        <ImageView fitHeight="38.0" fitWidth="90.0" layoutX="386.0" layoutY="236.0" pickOnBounds="true"
+                   preserveRatio="true" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0">
+            <image>
+                <Image url="@gplv3.png"/>
+            </image>
+        </ImageView>
+        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="151.0"
+               text="Autor: Brasilio Thomazo - brasilio@optimus.osasco.br" textAlignment="CENTER"
+               AnchorPane.leftAnchor="14.0" AnchorPane.topAnchor="148.0"/>
+        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="15.0" layoutY="174.0" text="Optimus Informatica"
+               textAlignment="CENTER" AnchorPane.leftAnchor="14.0"/>
+        <Hyperlink onAction="#openLink" layoutX="169.0" layoutY="170.0" text="https://optimus.osasco.br"/>
+    </children>
+</AnchorPane>
