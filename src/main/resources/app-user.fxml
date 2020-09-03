@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  ~     Copyright © 2020 Optimus Informatica <http://optimus.osasco.br>
+  ~
+  ~     This file is part of PDFSigner.
+  ~
+  ~     PDFSigner is free software: you can redistribute it and/or modify
+  ~     it under the terms of the GNU General Public License as published by
+  ~     the Free Software Foundation, either version 3 of the License, or
+  ~     (at your option) any later version.
+  ~
+  ~     PDFSigner is distributed in the hope that it will be useful,
+  ~     but WITHOUT ANY WARRANTY; without even the implied warranty of
+  ~     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+  ~     GNU General Public License for more details.
+  ~
+  ~     You should have received a copy of the GNU General Public License
+  ~     along with Foobar.  If not, see <https://www.gnu.org/licenses/>
+  ~
+  ~     Este arquivo é parte do programa PDFSigner
+  ~
+  ~     PDFSigner é um software livre; você pode redistribuí-lo e/ou
+  ~     modificá-lo dentro dos termos da Licença Pública Geral GNU como
+  ~     publicada pela Free Software Foundation (FSF); na versão 3 da
+  ~     Licença, ou (a seu critério) qualquer versão posterior.
+  ~
+  ~     Este programa é distribuído na esperança de que possa ser útil,
+  ~     mas SEM NENHUMA GARANTIA; sem uma garantia implícita de ADEQUAÇÃO
+  ~     a qualquer MERCADO ou APLICAÇÃO EM PARTICULAR. Veja a
+  ~     Licença Pública Geral GNU para maiores detalhes.
+  ~
+  ~     Você deve ter recebido uma cópia da Licença Pública Geral GNU junto
+  ~     com este programa, Se não, veja <http://www.gnu.org/licenses/>.
+  -->
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<VBox fx:id="rootBox" prefHeight="300" prefWidth="600" spacing="14.0" xmlns="http://javafx.com/javafx/11.0.1"
+      xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.osasco.optimus.pdfsigner.AppUserController">
+    <children>
+        <MenuBar>
+            <menus>
+                <Menu mnemonicParsing="false" text="Arquivo">
+                    <items>
+                        <MenuItem fx:id="menuSave" mnemonicParsing="false" onAction="#saveConfigs" text="Salvar"/>
+                        <MenuItem mnemonicParsing="false" onAction="#close" text="Fechar"/>
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Ajuda">
+                    <items>
+                        <MenuItem mnemonicParsing="false" onAction="#about" text="Sobre"/>
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+        <GridPane
+                style="-fx-background-image: url('/signature-bg.png'); -fx-background-position: center; -fx-background-repeat: no-repeat"
+                VBox.vgrow="ALWAYS">
+            <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+            </columnConstraints>
+            <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+                <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES"/>
+            </rowConstraints>
+            <children>
+                <GridPane hgap="14.0" vgap="14.0">
+                    <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" maxWidth="-Infinity"/>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0"/>
+                    </columnConstraints>
+                    <rowConstraints>
+                        <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES"/>
+                        <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES"/>
+                        <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES"/>
+                        <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES"/>
+                        <RowConstraints maxHeight="-Infinity" vgrow="SOMETIMES"/>
+                        <RowConstraints maxHeight="-Infinity"/>
+                        <RowConstraints maxHeight="-Infinity" minHeight="10.0" prefHeight="30.0"/>
+                        <RowConstraints/>
+                    </rowConstraints>
+                    <children>
+                        <Label text="Identidades:"/>
+                        <ComboBox fx:id="comboBoxAliases" onAction="#selectAlias" maxWidth="1.7976931348623157E308"
+                                  GridPane.columnIndex="1"/>
+
+                        <Label text="Senha/Pin:" GridPane.rowIndex="1"/>
+                        <PasswordField fx:id="fieldPassword" GridPane.rowIndex="1" GridPane.columnIndex="1"/>
+
+                        <GridPane GridPane.columnIndex="1" GridPane.rowIndex="2">
+                            <children>
+                                <Label fx:id="logsLabel" text="Assinando documentos..." visible="false"/>
+                                <ProgressIndicator fx:id="progress" visible="false" GridPane.columnIndex="1"/>
+                            </children>
+                            <columnConstraints>
+                                <ColumnConstraints hgrow="ALWAYS" maxWidth="1.7976931348623157E308"
+                                                   minWidth="-Infinity"/>
+                                <ColumnConstraints halignment="RIGHT"/>
+                            </columnConstraints>
+                            <rowConstraints>
+                                <RowConstraints/>
+                            </rowConstraints>
+                        </GridPane>
+
+                        <Button fx:id="buttonSign" mnemonicParsing="false" onAction="#signer" text="Assinar"
+                                GridPane.columnIndex="1"
+                                GridPane.halignment="RIGHT" GridPane.rowIndex="3"/>
+                    </children>
+                    <GridPane.margin>
+                        <Insets bottom="14.0" left="14.0" right="14.0" top="14.0"/>
+                    </GridPane.margin>
+                </GridPane>
+                <ImageView fitHeight="38.0" fitWidth="90.0" pickOnBounds="true" preserveRatio="true"
+                           GridPane.halignment="RIGHT" GridPane.rowIndex="1">
+                    <image>
+                        <Image url="@gplv3.png"/>
+                    </image>
+                    <GridPane.margin>
+                        <Insets bottom="5.0" left="5.0" right="5.0" top="5.0"/>
+                    </GridPane.margin>
+                </ImageView>
+            </children>
+        </GridPane>
+        <Label fx:id="statusLabel" text="Label"/>
+    </children>
+</VBox>
