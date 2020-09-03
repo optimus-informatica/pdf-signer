@@ -102,7 +102,6 @@ class StoreUtils {
 
     static Map<String, String> readDNInfos(X509Certificate certificate) {
         Map<String, String> map = new HashMap()
-        println(certificate.subjectX500Principal.name)
         certificate.subjectX500Principal.name.split(',').each {
             String[] pair = it.split('=')
             if (pair.length == 2) {

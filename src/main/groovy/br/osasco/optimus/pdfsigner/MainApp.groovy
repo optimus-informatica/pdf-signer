@@ -44,6 +44,7 @@ import javafx.stage.Stage
 
 class MainApp extends Application {
     static HostServicesDelegate hostServicesDelegate
+    static Stage mainStage
 
     @Override
     void start(Stage stage) throws Exception {
@@ -56,7 +57,7 @@ class MainApp extends Application {
         try {
             AppConfigs configs = new AppConfigs()
             config = configs.loadConfigs()
-            appForm = "/app-" + (config.app.mode == "user" ? "user" : "config") + ".fxml"
+            appForm = "/app-" + (config.app.config.mode == "user" ? "user" : "config") + ".fxml"
         }
         catch (Exception ex) {
             println(ex)
@@ -67,6 +68,7 @@ class MainApp extends Application {
         stage.scene = scene
         stage.title = "${title} v${version}"
         stage.icons.add(new Image(getClass().getResourceAsStream("/signature-solid.png")))
+        mainStage = stage
         stage.show()
     }
 

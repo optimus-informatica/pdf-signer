@@ -86,9 +86,9 @@
                         <Label text="Tipo de certificado:"/>
                         <HBox spacing="14.0" GridPane.columnIndex="1">
                             <children>
+                                <RadioButton fx:id="store" selected="true" mnemonicParsing="false" text="Local Store"/>
                                 <RadioButton fx:id="a1" mnemonicParsing="false" text="Certificado A1"/>
                                 <RadioButton fx:id="a3" mnemonicParsing="false" text="Certificado A3"/>
-                                <RadioButton fx:id="win32" mnemonicParsing="false" text="Win32 Store"/>
                             </children>
                         </HBox>
                         <Label text="Identidades:" GridPane.rowIndex="1"/>
@@ -102,6 +102,7 @@
                             </children>
                         </HBox>
 
+                        <Label text="Senha/Pin:" GridPane.rowIndex="3"/>
                         <HBox spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="3">
                             <PasswordField fx:id="fieldPassword" HBox.hgrow="ALWAYS"/>
                             <Button onAction="#loadCertificates" text="Carregar identidades"/>
@@ -113,7 +114,7 @@
                                 <Button mnemonicParsing="false" onAction="#selectFolderIn" text="Procurar..."/>
                             </children>
                         </HBox>
-                        <Label text="Pasta de entrada:" GridPane.rowIndex="5"/>
+                        <Label text="Pasta de saída:" GridPane.rowIndex="5"/>
                         <HBox spacing="5.0" GridPane.columnIndex="1" GridPane.rowIndex="5">
                             <children>
                                 <TextField fx:id="fieldFolderOut" HBox.hgrow="ALWAYS"/>

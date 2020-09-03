@@ -44,10 +44,21 @@ import java.security.cert.Certificate
 
 class PDFSignerTask extends Task<File> {
     private List<File> inFiles, outFiles
+    private int total = 0
+    private int processed = 0
     char[] pin
+    private String title = MainApp.mainStage.title
 
     PDFSignerTask(Map map) {
         pin = map['pin'] as char[]
+    }
+
+    int getTotal() {
+        return total
+    }
+
+    int getProcessed() {
+        return processed
     }
 
     private void listFiles(File folderIn, String folderOut, String subDir) {
@@ -71,6 +82,7 @@ class PDFSignerTask extends Task<File> {
 
     @Override
     protected File call() throws Exception {
+        updateTitle("${title} - Processando pastas.")
         AppConfigs appConfigs = new AppConfigs()
         inFiles = new ArrayList<>()
         outFiles = new ArrayList<>()
@@ -105,7 +117,7 @@ class PDFSignerTask extends Task<File> {
             Certificate[] chain = keyStore.getCertificateChain(alias)
 
             // Recupera as informações do SubjectDN
-            Map dn = StoreUtils.readDNInfos(chain[0] as Certificate)
+            Map dn = StoreUtils.readDNInfos(keyStore.getCertificate(alias))
 
             // Inicia a classe de assinatura de documento
             updateMessage("Iniciando o processo de assinatura")
@@ -118,8 +130,10 @@ class PDFSignerTask extends Task<File> {
             updateMessage("Foram encontrados um total de ${inFiles.size()} arquivos")
             updateProgress(0, 100)
 
+
             // Lê a lista de arquivos
-            for (int i = 0; i < inFiles.size(); i++) {
+            total = inFiles.size()
+            for (int i = 0; i < total; i++) {
                 File inFile = inFiles[i]
                 File outFile = outFiles[i]
 
@@ -141,11 +155,15 @@ class PDFSignerTask extends Task<File> {
 
                 setUpdateProgress(current)
                 current++
+                processed++
+                updateTitle("${title} assinando ${processed} de ${total}")
             }
         }
         catch (Exception ex) {
+            println(ex)
             updateMessage(ex.localizedMessage)
         }
+        updateTitle("${title} - Todos os documentos foram processados.")
 
         return null
     }

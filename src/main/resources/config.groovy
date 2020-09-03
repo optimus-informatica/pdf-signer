@@ -46,10 +46,10 @@ pkcs11.library = null
 pkcs11.slot = null
 pkcs11.name = 'token'
 
-signature.certificate.type = 'a1'
+signature.certificate.type = 'store'
 signature.certificate.alias = null
 signature.certificate.filename = null
 signature.reason = 'Seguranca'
 signature.location = 'Sao Paulo/SP'
-signature.folder.input = './'
-signature.folder.output = './signed'
+signature.folder.input = ''
+signature.folder.output = ''

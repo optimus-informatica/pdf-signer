@@ -79,7 +79,7 @@ class TestSignerTask extends Task<File> {
             Certificate[] chain = keyStore.getCertificateChain(alias)
 
             // Recupera as informações do SubjectDN
-            Map dn = StoreUtils.readDNInfos((Certificate) chain[0])
+            Map dn = StoreUtils.readDNInfos(keyStore.getCertificate(alias))
 
             // Inicia a classe de assinatura de documento
             updateMessage("Iniciando o processo de assinatura")

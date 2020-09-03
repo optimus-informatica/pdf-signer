@@ -34,7 +34,6 @@
 
 package br.osasco.optimus.pdfsigner
 
-
 import javafx.concurrent.WorkerStateEvent
 import javafx.event.ActionEvent
 import javafx.event.EventHandler
@@ -47,7 +46,6 @@ import javafx.scene.image.Image
 import javafx.stage.DirectoryChooser
 import javafx.stage.FileChooser
 import javafx.stage.Stage
-import org.apache.commons.lang3.SystemUtils
 import sun.security.pkcs11.SunPKCS11
 
 import java.security.cert.X509Certificate
@@ -78,7 +76,7 @@ class AppConfigController {
     private ComboBox cbCertificate
 
     @FXML
-    private RadioButton a1, a3, win32
+    private RadioButton a1, a3, store
 
     @FXML
     private void signer(ActionEvent event) {
@@ -100,6 +98,24 @@ class AppConfigController {
         }
         Thread thread = new Thread(task)
         thread.start()
+    }
+
+    /**
+     * Define a pasta atual para o dialogo
+     * @param field
+     * @param chooser
+     * @return
+     */
+    private DirectoryChooser setInitialDir(TextField field, DirectoryChooser chooser) {
+        File current = new File(field.text ?: System.properties['user.home'])
+        chooser.initialDirectory = current
+        chooser
+    }
+
+    private FileChooser setInitialDir(TextField field, FileChooser chooser) {
+        File current = new File(field.text ?: System.properties['user.home'])
+        chooser.initialDirectory = current.isDirectory() ? current : current.parent
+        chooser
     }
 
     @FXML
@@ -137,22 +153,33 @@ class AppConfigController {
         thread.start()
     }
 
+    private void showError(String msg) {
+        Alert alert = new Alert(Alert.AlertType.ERROR, "Erro", ButtonType.OK)
+        alert.contentText = msg
+        alert.showAndWait()
+    }
+
+    /**
+     * Faz a leitura o store
+     */
     @FXML
     private void loadCertificates() {
         String password = fieldPassword.text
-        if (password.length() < 1 && !win32) {
-            status.text = "Por favor, informe a senha/pin do certificado."
-            return
+        if (!store.selected) {
+            if (password.length() < 1) {
+                showError("Por favor, informe a senha/pin do certificado.")
+                return
+            }
         }
         pin = password.toCharArray()
 
         if (a1.selected) {
             if (certificateFile == null) {
-                status.text = "Por favor, informe o arquivo de certificado e clique em salvar."
+                showError("Por favor, informe o arquivo de certificado e clique em salvar.")
                 return
             }
             if (!certificateFile.exists()) {
-                status.text = "O arquivo de certificado informado não existe."
+                showError("O arquivo de certificado informado não existe.")
                 return
             }
         }
@@ -160,12 +187,12 @@ class AppConfigController {
         if (a3.selected) {
             String library = config.pkcs11.library
             if (library == null) {
-                status.text = "Biblioteca não definida, clique em configurar, e depois clique em salvar."
+                showError("Biblioteca não definida, clique em configurar, e depois clique em salvar.")
                 return
             }
             File libraryFile = new File(library)
             if (!libraryFile.exists()) {
-                status.text = "A biblioteca ${libraryFile.absolutePath} não existe."
+                showError("A biblioteca ${libraryFile.absolutePath} não existe.")
                 return
             }
         }
@@ -190,11 +217,7 @@ class AppConfigController {
 
     @FXML
     private void selectCertificateFile(ActionEvent event) {
-        FileChooser chooser = new FileChooser()
-        chooser.initialDirectory = new File(System.properties["user.home"] as String)
-        if (certificateFile) {
-            chooser.initialDirectory = certificateFile.parentFile
-        }
+        FileChooser chooser = setInitialDir(fieldCertificate, new FileChooser())
         FileChooser.ExtensionFilter[] filters = [new FileChooser.ExtensionFilter("Arquivos de certificado", "*.pfx", "*.crt", "*.pem")]
         chooser.extensionFilters.addAll(filters)
         File file = chooser.showOpenDialog(((Button) event.source).scene.window)
@@ -208,13 +231,16 @@ class AppConfigController {
     private void saveConfigs(ActionEvent event) {
         config.signature.certificate.alias = cbCertificate.selectionModel.selectedItem
         config.signature.certificate.type = (certTypes.selectedToggle as RadioButton).id
+        config.signature.certificate.filename = fieldCertificate.text.replace('\\', '/')
+        config.signature.folder.input = fieldFolderIn.text.replace('\\', '/')
+        config.signature.folder.output = fieldFolderOut.text.replace('\\', '/')
         config.writeTo(new FileWriter(configs.configFile))
+        //status.text = "Documento salvo com sucesso!"
     }
 
     @FXML
     private void selectFolderIn(ActionEvent event) {
-        DirectoryChooser chooser = new DirectoryChooser()
-        chooser.initialDirectory = new File(System.properties["user.home"])
+        DirectoryChooser chooser = setInitialDir(fieldFolderIn, new DirectoryChooser())
         File file = chooser.showDialog(((Button) event.source).scene.window)
         if (file) {
             fieldFolderIn.text = file.absolutePath
@@ -224,8 +250,7 @@ class AppConfigController {
 
     @FXML
     private void selectFolderOut(ActionEvent event) {
-        DirectoryChooser chooser = new DirectoryChooser()
-        chooser.initialDirectory = new File(System.properties["user.home"])
+        DirectoryChooser chooser = setInitialDir(fieldFolderOut, new DirectoryChooser())
         File file = chooser.showDialog(((Button) event.source).scene.window)
         if (file) {
             fieldFolderOut.text = file.absolutePath
@@ -240,19 +265,16 @@ class AppConfigController {
             fieldCertificate.text = certificateFile.absolutePath
         }
 
-        if ((folderInName = config.signature.folder.input)) {
-            folderIn = new File(folderInName)
-            fieldFolderIn.text = folderIn.absolutePath
-        }
+        folderIn = new File(config.signature.folder.input ?: System.properties["user.home"])
+        folderOut = new File(config.signature.folder.output ?: "${System.properties['user.home']}/signed")
 
-        if ((folderOutName = config.signature.folder.input)) {
-            folderOut = new File(folderOutName)
-            fieldFolderOut.text = folderOut.absolutePath
-        }
+
+        fieldFolderIn.text = folderIn.absolutePath
+        fieldFolderOut.text = folderOut.absolutePath
 
         a1.selected = config.signature.certificate.type == 'a1'
         a3.selected = config.signature.certificate.type == 'a3'
-        win32.selected = config.signature.certificate.type == 'win32'
+        store.selected = config.signature.certificate.type == 'store'
 
     }
 
@@ -289,7 +311,10 @@ class AppConfigController {
         aliases.each {
             cbCertificate.items.add(it)
             if ((alias = config.signature.certificate.alias)) {
-                cbCertificate.selectionModel.selectedItem = alias
+                if (alias == it)
+                    cbCertificate.selectionModel.selectedItem = alias
+                else
+                    cbCertificate.selectionModel.selectedIndex = 0
             }
         }
     }
@@ -299,16 +324,11 @@ class AppConfigController {
      */
     void initialize() {
         configs = new AppConfigs()
-        configs.status = status
         config = configs.loadConfigs()
 
         a1.toggleGroup = certTypes
         a3.toggleGroup = certTypes
-        win32.toggleGroup = certTypes
-
-        if (!SystemUtils.IS_OS_WINDOWS) {
-            win32.visible = false
-        }
+        store.toggleGroup = certTypes
         loadConfigs()
         loadCertificates()
     }
