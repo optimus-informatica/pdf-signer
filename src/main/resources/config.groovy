@@ -32,7 +32,7 @@
  *     com este programa, Se não, veja <http://www.gnu.org/licenses/>.
  */
 
-app.mode = config
+app.mode = 'config'
 
 pkcs11.libraries = [
         'c:/windows/system32/cmP11.dll',
